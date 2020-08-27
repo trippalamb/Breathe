@@ -1,0 +1,21 @@
+
+#header {
+    position: absolute;
+}
+
+#yinyang{
+    height:60%;
+    width:60%;
+    display:block;
+    margin-top:auto;
+    margin-bottom:auto;
+    margin-left:auto;
+    margin-right:auto;
+    opacity:0.1;
+}
+
+#words{
+    position:absolute;
+    top:600px;
+    font-size:4.5em;
+}

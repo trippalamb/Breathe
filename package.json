@@ -1,0 +1,16 @@
+{
+  "name": "breathe",
+  "version": "1.0.0",
+  "description": "to help you calm down",
+  "main": "src/main.js",
+  "dependencies": {
+    "electron": "^10.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "electron src/main.js",
+    "test": "test main.test.js"
+  },
+  "author": "Tripp Lamb",
+  "license": "UNLICENSED"
+}
