@@ -26,6 +26,15 @@
     filter:0.00;
 }
 
+#btn-counting {
+    display: block;
+    position:absolute;
+    opacity:0.0;
+    cursor:pointer;
+    text-align:center;
+    border-width:4px !important;
+}
+
 #words{
     position:absolute;
     top:80%;

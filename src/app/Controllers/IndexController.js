@@ -1,5 +1,7 @@
 var wordsFadeAllowed = true;
 var tooMuchCount = 0;
+var currentCountSequence = [];
+var sequenceCount = 0;
 
 class IndexMain {
     constructor() {
@@ -18,6 +20,7 @@ class IndexMain {
         this.$iJustWantAHug = $("#btn-I-just-want-a-hug");
         this.$imAlreadyPanicked = $("#btn-Im-already-panicked");
         this.$yinyang = $("#yinyang");
+        this.$counting = $("#btn-counting");
         this.$words = $("#words");
     }
 
@@ -61,6 +64,20 @@ class IndexMain {
         this.$imAlreadyPanicked.on('click', () =>{
             this.fade();
         });
+
+        this.$counting.on("click", () => {
+            this.$counting.fadeTo(1000, 0.00);
+            if (typeof (this.sequencetimeout) !== "undefined") { clearTimeout(this.sequencetimeout); }
+            this.sequencetimeout = setTimeout(() => {
+                this.$counting.find("p").text(currentCountSequence[sequenceCount++]);
+                if (sequenceCount <= currentCountSequence.length) {
+                    this.$counting.fadeTo(1200, 1.00);
+                }
+                else {
+                    sequenceCount = 0;
+                }
+            }, 1600);
+        });
     }
 
     fade() {
@@ -82,33 +99,26 @@ class IndexMain {
         }
     }
 
-    IHateMyself(){
+    IHateMyself() {
 
-        //play game
-        let w = $("#svg-container").width();
-        let h = $("#svg-container").height();
-        this.svg = d3.select("#svg-container")
-                     .append("svg")
-                     .attr("id", "counting-container")
-                     .attr("width", w)
-                     .attr("height", h);
+        let w = $(window).width();
+        let h = $(window).height();
+        let cw = w * 0.2;
+        this.$counting.width(cw);
+        this.$counting.height(cw);
+        this.$counting.css({
+            top: h / 2 - cw / 2,
+            left: w / 2 - cw / 2
+        });
 
-        this.svg.append("circle")
-                .attr("cx", w/2)
-                .attr("cy", h/2)
-                .attr("r", 100)
-                .style("stroke", "black")
-                .style("fill", "white")
-                .style("stroke-width", 4)
-                .classed("pointer", true);
+        currentCountSequence = getCountingSequence();
+        this.$counting.find("p").css({
+            "font-size": cw * 0.5,
+            "padding-top": cw *0.1
+        }).text(currentCountSequence[sequenceCount++]);
+        
 
-        this.svg.append("text")
-                .attr("dx", w/2)
-                .attr("dy", h/2)
-                .classed("pointer", true)
-                .style("font-size", 40)
-                .text("3");
-                
+        this.$counting.fadeTo(1000, 1.00);                
 
         if(wordsFadeAllowed){
             this.$words.text(getIHateMyselfPhrase());
@@ -116,6 +126,9 @@ class IndexMain {
             this.$words.fadeTo(2000, 1.0);
             setTimeout(()=>{wordsFadeAllowed = true;}, 2000)
         }
+
+
+
     }
 
     ItsAllTooMuch(){
@@ -145,6 +158,26 @@ function getIFeelBadPhrase(){
 
 function getIHateMyselfPhrase(){
     return "Let's count. Just click.";
+}
+
+function getCountingSequence() {
+    var r = getRandomInt(4);
+    switch (r) {
+        case 0:
+            return ["3","2","1","0"];
+            break;
+        case 1:
+            return ["243", "81", "27", "9", "3", "1", "0"];
+            break;
+        case 2:
+            return ["tres", "dos", "uno", "cero"];
+            break;
+        case 3:
+            return ["10", "9", "7.2", "5.6", "4.8", "3.1", "1.8", "0.6", "0.31", "0"];
+            break;
+        default:
+            throw new Error("case number is too high");
+    }
 }
 
 function getItsTooMuchPhrase(){
