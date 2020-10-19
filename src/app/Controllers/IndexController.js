@@ -30,6 +30,7 @@ class IndexMain {
         let hw = this.$header.width();
         let left = (ww-hw)/2.0;
         this.$header.css("left", left);
+        this.$header.css("top", 40);
     }
 
     buildResponsive() {
