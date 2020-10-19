@@ -407,11 +407,14 @@ function getItsTooMuchPhrase(){
             return "Today is " + getDayOfWeek((new Date()).getDay()) + ". You can do this.";
         case 2:
             tooMuchCount++;
-            return "You can do a " + getDayOfWeek((new Date()).getDay()) + ". I've seen you do it before.";
+            var day = getDayOfWeek((new Date()).getDay());
+            return "You can do a " + day + ". You've done a " + day + " before.";
         case 3:
             tooMuchCount++;
             var d = new Date();
-            return "Right now it is " + d.getHours() + ":" + d.getMinutes() + ".";
+            var min = d.getMinutes() + "";
+            min = (min.length === 1) ? "0" + min : min;
+            return "Right now it is " + d.getHours() + ":" + min + ".";
         default:
             tooMuchCount = 0;
             return getItsTooMuchPhrase();
