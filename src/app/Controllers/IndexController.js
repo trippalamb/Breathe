@@ -9,6 +9,7 @@ class IndexMain {
         this.linkHTML();
         this.updateHTML();
         this.buildResponsive();
+        this.$words.fadeTo(1, 0.0);
     }
 
     linkHTML(){
@@ -70,8 +71,8 @@ class IndexMain {
             this.timeout = setTimeout(() =>{this.fade(); }, 6000);
         });
 
-        this.$imAlreadyPanicked.on('click', () =>{
-            this.fade();
+        this.$imAlreadyPanicked.on('click', () => {
+            this.ImAlreadyPanicked();
         });
 
         this.$counting.on("click", () => {
@@ -117,7 +118,6 @@ class IndexMain {
         };
 
         $("#terrible-1").offset(position);
-        //$("#terrible-2").offset({ top: 400, left: 400 });
 
         $("#container").on("mousemove", (e) => {
 
@@ -273,8 +273,6 @@ class IndexMain {
             setTimeout(()=>{wordsFadeAllowed = true;}, 2000)
         }
 
-
-
     }
 
     ItsAllTooMuch(){
@@ -283,6 +281,51 @@ class IndexMain {
             wordsFadeAllowed = false;
             this.$words.fadeTo(2000, 1.0);
             setTimeout(()=>{wordsFadeAllowed = true;}, 2000)
+        }
+    }
+
+    ImAlreadyPanicked() {
+
+        let numBreaths = 3;
+        let breathCount = 0;
+        let $words = this.$words;
+
+        $words.text("Take a deep breath in...");
+        wordsFadeAllowed = false;
+        $words.fadeTo(2000, 1.0); //fade in words
+        
+        setTimeout(() => { //once words are faded in trigger sequence
+            breathIn();
+        }, 2000)
+
+        function breathIn() {
+            $("#container").addClass("panic");
+            setTimeout($words.fadeTo(2000, 0.0), 1000); //words should completely fade out by 3s
+            setTimeout(breathOut, 4000); //at 4s call breath out
+
+            //$("#words").addClass("panic");
+            setTimeout(() => { //breath out should fade in by 5s
+                $words.text("Take a deep breath out...");
+                $words.fadeTo(2000, 1.0);
+            }, 3000)
+        }
+
+        function breathOut() {
+            $("#container").removeClass("panic");
+            setTimeout($words.fadeTo(2000, 0.0), 5000); //words should completely fade out by 3s
+            
+            //$("#words").removeClass("panic");
+            if (breathCount++ < numBreaths) {
+                setTimeout(breathIn, 8000);
+                setTimeout(() => {
+                    $words.text("Take a deep breath in...");
+                    $words.fadeTo(2000, 1.0);
+                }, 7000);
+            }
+            else {
+                breathCount = 0;
+                wordsFadeAllowed = true;
+            }
         }
     }
 }
