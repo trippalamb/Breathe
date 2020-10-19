@@ -286,13 +286,15 @@ class IndexMain {
 
     ImAlreadyPanicked() {
 
-        let numBreaths = 3;
+        let numBreaths = 5;
         let breathCount = 0;
         let $words = this.$words;
+        let $yinyang = this.$yinyang;
 
         $words.text("Take a deep breath in...");
         wordsFadeAllowed = false;
         $words.fadeTo(2000, 1.0); //fade in words
+        //$yinyang.fadeTo(2000, 1.0); //fade in words
         
         setTimeout(() => { //once words are faded in trigger sequence
             breathIn();
@@ -300,8 +302,9 @@ class IndexMain {
 
         function breathIn() {
             $("#container").addClass("panic");
-            setTimeout($words.fadeTo(2000, 0.0), 1000); //words should completely fade out by 3s
+            setTimeout(() =>{ $words.fadeTo(2000, 0.0) }, 1000); //words should completely fade out by 3s
             setTimeout(breathOut, 4000); //at 4s call breath out
+            $yinyang.fadeTo(4000, 0.0);
 
             //$("#words").addClass("panic");
             setTimeout(() => { //breath out should fade in by 5s
@@ -312,11 +315,12 @@ class IndexMain {
 
         function breathOut() {
             $("#container").removeClass("panic");
-            setTimeout($words.fadeTo(2000, 0.0), 5000); //words should completely fade out by 3s
+            setTimeout(() => { $words.fadeTo(2000, 0.0) }, 5000); //words should completely fade out by 3s
             
             //$("#words").removeClass("panic");
             if (breathCount++ < numBreaths) {
                 setTimeout(breathIn, 8000);
+                $yinyang.fadeTo(8000, 1.0);
                 setTimeout(() => {
                     $words.text("Take a deep breath in...");
                     $words.fadeTo(2000, 1.0);
