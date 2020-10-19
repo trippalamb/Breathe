@@ -66,6 +66,7 @@ class IndexMain {
         });
 
         this.$iJustWantAHug.on('click', () => {
+            this.resetTerrible();
             this.$yinyang.fadeTo(2000, 1.0);
             if(typeof(this.timeout) !== "undefined"){ clearTimeout(this.timeout);}
             this.timeout = setTimeout(() =>{this.fade(); }, 6000);
@@ -228,7 +229,8 @@ class IndexMain {
         }
     }
 
-    IFeelBad(){
+    IFeelBad() {
+        this.resetTerrible();
         let opacity = getOpacity(this.$yinyang);
         let newOpacity = opacity * 1.2;
         if (newOpacity > 1.0) { newOpacity = 1.0;}
@@ -244,6 +246,7 @@ class IndexMain {
 
     IHateMyself() {
 
+        this.resetTerrible();
         this.$counting.attr("hidden", false);
         sequenceCount = 0;
 
@@ -275,7 +278,8 @@ class IndexMain {
 
     }
 
-    ItsAllTooMuch(){
+    ItsAllTooMuch() {
+        this.resetTerrible();
         if(wordsFadeAllowed){
             this.$words.text(getItsTooMuchPhrase());
             wordsFadeAllowed = false;
@@ -286,6 +290,7 @@ class IndexMain {
 
     ImAlreadyPanicked() {
 
+        this.resetTerrible();
         let numBreaths = 5;
         let breathCount = 0;
         let $words = this.$words;
@@ -294,7 +299,6 @@ class IndexMain {
         $words.text("Take a deep breath in...");
         wordsFadeAllowed = false;
         $words.fadeTo(2000, 1.0); //fade in words
-        //$yinyang.fadeTo(2000, 1.0); //fade in words
         
         setTimeout(() => { //once words are faded in trigger sequence
             breathIn();
@@ -306,7 +310,6 @@ class IndexMain {
             setTimeout(breathOut, 4000); //at 4s call breath out
             $yinyang.fadeTo(4000, 0.0);
 
-            //$("#words").addClass("panic");
             setTimeout(() => { //breath out should fade in by 5s
                 $words.text("Take a deep breath out...");
                 $words.fadeTo(2000, 1.0);
@@ -317,7 +320,6 @@ class IndexMain {
             $("#container").removeClass("panic");
             setTimeout(() => { $words.fadeTo(2000, 0.0) }, 5000); //words should completely fade out by 3s
             
-            //$("#words").removeClass("panic");
             if (breathCount++ < numBreaths) {
                 setTimeout(breathIn, 8000);
                 $yinyang.fadeTo(8000, 1.0);
@@ -332,17 +334,26 @@ class IndexMain {
             }
         }
     }
+
+    resetTerrible() {
+        $("#terrible-1").offset({ left: -500, top: -500 });
+        $("#terrible-2").offset({ left: -500, top: -500 });
+        this.$imATerriblePerson.css("visibility", "visible").attr("disabled", false);
+    }
 }
 
 
 function getIFeelBadPhrase(){
-    var r = getRandomInt(2);
+    var r = getRandomInt(3);
     switch(r) {
         case 0:
             return "That's okay.";
             break;
         case 1:
             return "Feeling bad doesn't make you a bad person.";
+            break;
+        case 2:
+            return "This is temporary.";
             break;
         default:
             throw new Error("case number is too high");
@@ -354,7 +365,7 @@ function getIHateMyselfPhrase(){
 }
 
 function getCountingSequence() {
-    var r = getRandomInt(6);
+    var r = getRandomInt(8);
     switch (r) {
         case 0:
             return ["3","2","1","0"];
@@ -374,6 +385,12 @@ function getCountingSequence() {
         case 5:
             return ["san", "ni", "ichi", "zero"];
             break;
+        case 6:
+            return ["21", "13", "8", "5", "3", "2", "1", "1", "0"];
+            break;
+        case 7:
+            return ["128", "64", "32", "16", "8", "4", "2", "1", "0"];
+            break;
         default:
             throw new Error("case number is too high");
     }
@@ -388,6 +405,9 @@ function getItsTooMuchPhrase(){
             tooMuchCount++;
             return "Today is " + getDayOfWeek((new Date()).getDay()) + ". You can do this.";
         case 2:
+            tooMuchCount++;
+            return "You can do a " + getDayOfWeek((new Date()).getDay()) + ". I've seen you do it before.";
+        case 3:
             tooMuchCount++;
             var d = new Date();
             return "Right now it is " + d.getHours() + ":" + d.getMinutes() + ".";
